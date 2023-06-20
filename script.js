@@ -1,57 +1,56 @@
 /* Here, I am wrapping everything inside of (document).ready(...) */
 $(document).ready(function() {
-    // Custom validation method to check if a value is a valid integer
-    $.validator.addMethod("validInteger", function(value, element) {
-      return this.optional(element) || Number.isInteger(Number(value));
-    }, "Please enter a valid integer.");
-  
     // Form validation rules
     $('#boundsForm').validate({
       rules: {
         /* Here, I am breaking down each of my bounds within boundsForm */
         clbound: {
           required: true,
-          validInteger: true
+          number: true
         },
         cubound: {
           required: true,
-          validInteger: true
+          number: true
         },
         rlbound: {
           required: true,
-          validInteger: true
+          number: true
         },
         rubound: {
           required: true,
-          validInteger: true
+          number: true
         }
       },
       messages: {
         clbound: {
-          required: "Column Lower Bound is required."
+          required: "Column Lower Bound is required.",
+          number: "Please enter a valid number."
         },
         cubound: {
-          required: "Column Upper Bound is required."
+          required: "Column Upper Bound is required.",
+          number: "Please enter a valid number."
         },
         rlbound: {
-          required: "Row Lower Bound is required."
+          required: "Row Lower Bound is required.",
+          number: "Please enter a valid number."
         },
         rubound: {
-          required: "Row Upper Bound is required."
+          required: "Row Upper Bound is required.",
+          number: "Please enter a valid number."
         }
       },
-      
+  
       submitHandler: function(form) {
         // Clear previous error messages and table
         $('#isEmptyError, #validationError, #lowerBoundError, #multiTable').empty();
   
         // Get the form field values
-        var clbound = parseInt($('#clbound').val());
-        var cubound = parseInt($('#cubound').val());
-        var rlbound = parseInt($('#rlbound').val());
-        var rubound = parseInt($('#rubound').val());
+        var clbound = Math.floor(parseFloat($('#clbound').val()));
+        var cubound = Math.floor(parseFloat($('#cubound').val()));
+        var rlbound = Math.floor(parseFloat($('#rlbound').val()));
+        var rubound = Math.floor(parseFloat($('#rubound').val()));
   
-        // Check if any field is empty or not a valid integer
+        // Check if any field is empty or not a number
         if (isNaN(clbound) || isNaN(cubound) || isNaN(rlbound) || isNaN(rubound)) {
           $('#isEmptyError').text("Please fill out all the fields correctly.");
           return;
@@ -99,12 +98,11 @@ $(document).ready(function() {
         $('#multiTable').html(table);
       }
     });
-
+  
     // Temporary disable validation on submit button click
     $('#submitButton').click(function() {
-        $('#boundsForm').validate().cancelSubmit = true;
-        $('#boundsForm').submit();
+      $('#boundsForm').validate().cancelSubmit = true;
+      $('#boundsForm').submit();
     });
-
   });
   
